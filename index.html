@@ -21,10 +21,8 @@
         }
         
         body {
-            font-family: 'Comic Neue', cursive;
-            background: linear-gradient(-45deg, #2c3e50, #16a085, #f39c12, #e74c3c);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite, pulseBackground 10s ease infinite;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #2c3e50, #16a085);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -33,23 +31,14 @@
             padding: 20px;
         }
         
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes pulseBackground {
-            0%, 100% { background-blend-mode: normal; }
-            50% { background-blend-mode: overlay; }
-        }
-        
         .main-container {
             display: flex;
             width: 100%;
             max-width: 1400px;
             gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
         .photo-column {
@@ -58,27 +47,6 @@
             gap: 20px;
             width: 250px;
             flex-shrink: 0;
-            position: relative;
-            height: 550px;
-            overflow: hidden;
-        }
-        
-        .photo-slider {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            animation: slidePhotos 20s linear infinite;
-        }
-        
-        @keyframes slidePhotos {
-            0%, 100% { transform: translateY(0); }
-            25% { transform: translateY(-290px); }
-            50% { transform: translateY(-580px); }
-            75% { transform: translateY(-870px); }
         }
         
         .student-photo {
@@ -88,6 +56,21 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
+            transition: transform 0.3s;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .student-photo:nth-child(1) { animation-delay: 0s; }
+        .student-photo:nth-child(2) { animation-delay: 1s; }
+        
+        .student-photo:hover {
+            transform: scale(1.03) translateY(-5px);
+            animation-play-state: paused;
         }
         
         .student-photo img {
@@ -111,6 +94,8 @@
             color: white;
             padding: 10px;
             text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
             font-size: 1.2rem;
             transition: all 0.3s;
         }
@@ -122,22 +107,27 @@
         
         .card {
             width: 100%;
-            background: rgba(255,255,255,0.9);
+            max-width: 600px;
+            background: rgba(255,255,255,0.95);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow: hidden;
             position: relative;
-            padding: 20px;
-            transform-style: preserve-3d;
-            transition: all 0.5s;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
+            padding: 30px;
+            transition: all 0.3s;
+            order: -1;
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.01); box-shadow: 0 15px 35px rgba(0,0,0,0.25); }
         }
         
         .card:hover {
-            transform: translateY(-10px) rotateX(5deg);
+            animation: none;
+            transform: scale(1.02);
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            background: rgba(255,255,255,0.95);
         }
         
         .header {
@@ -147,88 +137,85 @@
         }
         
         .school-name {
-            font-size: 2rem;
+            font-family: 'Merriweather', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             color: var(--primary);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: bounce 2s infinite;
+            margin-bottom: 15px;
+            animation: colorChange 5s infinite alternate;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        @keyframes colorChange {
+            0% { color: var(--primary); }
+            100% { color: var(--secondary); }
         }
         
         .photo-frame {
-            width: 200px;
-            height: 200px;
+            width: clamp(120px, 30vw, 200px);
+            height: clamp(120px, 30vw, 200px);
             margin: 0 auto 20px;
             border: 5px solid var(--accent);
             border-radius: 50%;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             position: relative;
-            animation: pulseBorder 3s infinite;
+            animation: rotate 20s linear infinite;
         }
         
-        @keyframes pulseBorder {
-            0% { border-color: var(--accent); }
-            50% { border-color: var(--secondary); }
-            100% { border-color: var(--accent); }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .photo-frame:hover {
+            animation: rotate 5s linear infinite;
         }
         
         .message {
             text-align: center;
-            font-size: 1.2rem;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
             line-height: 1.6;
             margin-bottom: 30px;
-            position: relative;
         }
         
-        .emoji-rain {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .emoji {
-            position: absolute;
-            font-size: 24px;
-            animation: floatDown 5s linear infinite;
+        .message p {
+            margin-bottom: 15px;
             opacity: 0;
+            animation: fadeIn 1s forwards;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 500;
         }
         
-        @keyframes floatDown {
-            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        .message p:nth-child(1) { animation-delay: 0.3s; }
+        .message p:nth-child(2) { animation-delay: 0.6s; }
+        .message p:nth-child(3) { animation-delay: 0.9s; }
+        .message p:nth-child(4) { animation-delay: 1.2s; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .eid-btn {
             background: linear-gradient(45deg, var(--secondary), var(--primary));
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: clamp(10px, 3vw, 15px) clamp(25px, 5vw, 40px);
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             margin: 20px auto;
             display: block;
+            width: fit-content;
             position: relative;
             overflow: hidden;
-            z-index: 2;
-        }
-        
-        .eid-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
         }
         
         .eid-btn::before {
@@ -242,6 +229,11 @@
             transition: 0.5s;
         }
         
+        .eid-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
         .eid-btn:hover::before {
             left: 100%;
         }
@@ -249,199 +241,158 @@
         .footer {
             text-align: center;
             margin-top: 30px;
-            font-size: 1rem;
+            font-size: clamp(0.7rem, 2.5vw, 1rem);
             color: #555;
-        }
-        
-        .fireworks {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .firework {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            animation: explode 1s ease-out infinite;
+            animation: fadeIn 1s 1.5s forwards;
             opacity: 0;
-        }
-        
-        @keyframes explode {
-            0% { transform: scale(0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: scale(20); opacity: 0; }
+            font-family: 'Roboto', sans-serif;
         }
         
         .floating-emojis {
-            position: absolute;
-            font-size: 30px;
-            animation: floatDownAround 15s linear infinite;
+            position: fixed;
+            font-size: clamp(16px, 5vw, 30px);
+            animation: floatDown 15s linear infinite;
             z-index: -1;
             opacity: 0.7;
         }
         
-        @keyframes floatDownAround {
+        @keyframes floatDown {
             0% { transform: translate(0, -100px) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
-            25% { transform: translate(50px, 25vh) rotate(90deg); }
-            50% { transform: translate(0, 50vh) rotate(180deg); }
-            75% { transform: translate(-50px, 75vh) rotate(270deg); }
+            90% { opacity: 1; }
             100% { transform: translate(0, 100vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Sharing buttons styles */
-        .share-section {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .share-btn {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 50%;
-            margin: 5px;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-        
-        .share-btn.copy {
-            background: #6c757d;
-        }
-        
-        .share-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        @media (max-width: 1200px) {
-            .photo-column {
-                width: 200px;
-                height: 440px;
+        /* Responsive Adjustments */
+        @media (min-width: 1200px) {
+            .main-container {
+                flex-wrap: nowrap;
             }
-            
-            .student-photo {
-                height: 200px;
-            }
-            
-            @keyframes slidePhotos {
-                0%, 100% { transform: translateY(0); }
-                25% { transform: translateY(-220px); }
-                50% { transform: translateY(-440px); }
-                75% { transform: translateY(-660px); }
+            .card {
+                order: 0;
             }
         }
 
         @media (max-width: 992px) {
-            .main-container {
-                flex-direction: column;
-            }
-            
             .photo-column {
                 width: 100%;
-                height: auto;
+                max-width: 500px;
                 flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-                overflow: visible;
-            }
-            
-            .photo-slider {
-                position: relative;
-                flex-direction: row;
-                animation: none;
                 flex-wrap: wrap;
                 justify-content: center;
             }
             
             .student-photo {
-                width: 45%;
-                height: 200px;
+                width: calc(50% - 15px);
+                height: 220px;
             }
             
             .card {
-                order: -1;
-                margin-bottom: 30px;
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .student-photo {
+                height: 200px;
             }
             
-            .share-section {
-                position: static;
-                flex-direction: row;
-                justify-content: center;
-                margin-top: 20px;
+            .photo-frame {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .school-name {
+                font-size: clamp(1.6rem, 4vw, 2rem);
+            }
+            
+            .header h2 {
+                font-size: 1.5rem;
             }
         }
 
         @media (max-width: 576px) {
+            body {
+                padding: 15px;
+            }
+            
             .student-photo {
                 width: 100%;
-                height: 250px;
+                max-width: 300px;
+                height: 220px;
             }
             
-            .school-name {
-                font-size: 1.5rem;
+            .photo-column {
+                gap: 15px;
             }
             
-            .photo-frame {
-                width: 150px;
-                height: 150px;
+            .card {
+                padding: 20px;
+            }
+            
+            .eid-btn {
+                padding: 10px 25px;
+            }
+            
+            .floating-emojis {
+                font-size: clamp(14px, 4vw, 24px);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .student-photo::after {
+                font-size: 1rem;
+                padding: 8px;
+            }
+            
+            .student-photo:hover::after {
+                padding: 12px;
+            }
+            
+            .message p {
+                margin-bottom: 12px;
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Beautiful non-cursive Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Montserrat:wght@600;700&family=Open+Sans:wght@500;600&family=Poppins:wght@400;500&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="fireworks" id="fireworks"></div>
+    <!-- Floating Emojis -->
+    <div class="floating-emojis" style="top:0%; left:5%; animation-delay: 0s;">🌙</div>
+    <div class="floating-emojis" style="top:0%; right:5%; animation-delay: 3s;">🌟</div>
+    <div class="floating-emojis" style="top:0%; left:10%; animation-delay: 6s;">🕌</div>
+    <div class="floating-emojis" style="top:0%; right:10%; animation-delay: 2s;">✨</div>
+    <div class="floating-emojis" style="top:0%; left:15%; animation-delay: 4s;">🎉</div>
     
     <div class="main-container">
-        <!-- Left Photo Column (slider) -->
+        <!-- Left Photo Column -->
         <div class="photo-column">
-            <div class="photo-slider">
-                <div class="student-photo">
-                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80" alt="Happy Students">
-                </div>
-                <div class="student-photo">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Classroom Learning">
-                </div>
-                <div class="student-photo">
-                    <img src="img1 (1).jpg" alt="School Event">
-                </div>
-                <div class="student-photo">
-                    <img src="img1 (2).jpg" alt="Graduation">
-                </div>
+            <div class="student-photo">
+                <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80" alt="Happy Students" loading="lazy">
+            </div>
+            <div class="student-photo">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Classroom Learning" loading="lazy">
             </div>
         </div>
         
         <!-- Main Card -->
         <div class="card">
             <div class="header">
-                <h1 class="school-name">🎓 Maymar-e-Noe Academy 🎓</h1>
+                <h1 class="school-name">Maymar-e-Noe Academy</h1>
                 <div class="photo-frame">
-                    <img src="WhatsApp_Image_2025-03-25_at_02.33.08_673a5238-removebg-preview.png" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="WhatsApp_Image_2025-03-25_at_02.33.08_673a5238-removebg-preview.png" style="width:100%; height:100%; object-fit:cover;" loading="eager">
                 </div>
-                <h2 style="color: var(--secondary);">✨ Eid Mubarak 2025 ✨</h2>
+                <h2 style="color: var(--secondary); font-family: 'Merriweather', serif; font-size: clamp(1.5rem, 3vw, 2rem);">Eid Mubarak 2025</h2>
             </div>
             
-            <div class="emoji-rain" id="emojiRain"></div>
-            
             <div class="message">
-                <p>🎉 Dear Students, Parents, and Staff 🎉</p>
-                <p>🌙 May this Eid bring endless joy, 🤗 happiness, and 🎁 blessings to you all!</p>
-                <p>🍬 Enjoy the sweet moments with your 👨‍👩‍👧‍👦 family and 🧡 loved ones!</p>
-                <p>🏫 From all of us at Maymar-e-Noe Academy - 💖 Eid Mubarak! 💖</p>
+                <p>🎉 Dear Students, Parents, and Staff 🎉
+                🌙 May this Eid bring endless joy, 🤗 happiness, and 🎁 blessings to you all!</p>
+                <p>🍬 Enjoy the sweet moments with your 👨‍👩‍👧‍👦 family and 🧡 loved ones!
+                🏫 From all of us at Maymar-e-Noe Academy - </p>
+                <p>💖 Eid Mubarak! 💖</p>
             </div>
             
             <button class="eid-btn" id="celebrateBtn">
@@ -453,131 +404,57 @@
             </div>
         </div>
         
-        <!-- Right Photo Column (slider) -->
+        <!-- Right Photo Column -->
         <div class="photo-column">
-            <div class="photo-slider">
-                <div class="student-photo">
-                    <img src="img1 (1).jpg" alt="School Event">
-                </div>
-                <div class="student-photo">
-                    <img src="img1 (2).jpg" alt="Graduation">
-                </div>
-                <div class="student-photo">
-                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1172&q=80" alt="Happy Students">
-                </div>
-                <div class="student-photo">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Classroom Learning">
-                </div>
+            <div class="student-photo">
+                <img src="img1 (1).jpg" alt="School Event" loading="lazy">
+            </div>
+            <div class="student-photo">
+                <img src="img1 (2).jpg" alt="Graduation" loading="lazy">
             </div>
         </div>
     </div>
     
-    <!-- Floating Emojis -->
-    <div class="floating-emojis" style="top:0%; left:5%; animation-delay: 0s;">🌙</div>
-    <div class="floating-emojis" style="top:0%; right:5%; animation-delay: 2s;">🌟</div>
-    <div class="floating-emojis" style="top:0%; left:10%; animation-delay: 4s;">🕌</div>
-    <div class="floating-emojis" style="top:0%; right:10%; animation-delay: 6s;">💝</div>
-    <div class="floating-emojis" style="top:0%; left:15%; animation-delay: 1s;">✨</div>
-    <div class="floating-emojis" style="top:0%; right:15%; animation-delay: 3s;">🎁</div>
-    
-    <!-- Sharing Section -->
-    <div class="share-section">
-        <button class="share-btn" onclick="shareOnWhatsApp()">
-            <i class="fab fa-whatsapp"></i>
-        </button>
-        <button class="share-btn copy" onclick="copyLink()">
-            <i class="fas fa-copy"></i>
-        </button>
-    </div>
-    
     <script>
-        // Emoji Rain (falling down)
-        const emojiRain = document.getElementById('emojiRain');
-        const emojis = ['✨', '🌟', '🎉', '🎊', '💖', '🌙', '🍬', '🥮', '🧁'];
-        
-        function createEmoji() {
-            const emoji = document.createElement('div');
-            emoji.classList.add('emoji');
-            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            emoji.style.left = Math.random() * 100 + '%';
-            emoji.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            emoji.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            emoji.style.animationDelay = Math.random() + 's';
-            emojiRain.appendChild(emoji);
-            
-            setTimeout(() => {
-                emoji.remove();
-            }, 5000);
-        }
-        
-        // Initial emojis
-        for (let i = 0; i < 20; i++) {
-            setTimeout(createEmoji, i * 300);
-        }
-        
-        // Continuous emojis
-        setInterval(createEmoji, 300);
-        
-        // Fireworks
-        const fireworks = document.getElementById('fireworks');
-        const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
-        
-        function createFirework() {
-            const firework = document.createElement('div');
-            firework.classList.add('firework');
-            firework.style.left = Math.random() * 100 + '%';
-            firework.style.top = Math.random() * 100 + '%';
-            firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            fireworks.appendChild(firework);
-            
-            setTimeout(() => {
-                firework.remove();
-            }, 1000);
-        }
-        
-        // Celebrate button
+        // Enhanced celebration effect
         const celebrateBtn = document.getElementById('celebrateBtn');
         celebrateBtn.addEventListener('click', function() {
-            // Big fireworks explosion
-            for (let i = 0; i < 50; i++) {
-                setTimeout(() => {
-                    createFirework();
-                }, i * 50);
-            }
-            
-            // Extra emoji rain
-            for (let i = 0; i < 30; i++) {
-                setTimeout(createEmoji, i * 100);
-            }
-            
             // Button animation
             celebrateBtn.innerHTML = '🎉 Eid Mubarak! 🎉';
             celebrateBtn.style.background = 'linear-gradient(45deg, #e74c3c, #f39c12)';
+            
+            // Create floating emojis
+            const emojis = ['✨', '🌟', '🎉', '🎊', '💖', '🌙', '🕌'];
+            const colors = ['#f1c40f', '#e74c3c', '#3498db', '#2ecc71', '#9b59b6'];
+            
+            for (let i = 0; i < 12; i++) {
+                const emoji = document.createElement('div');
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.position = 'fixed';
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.top = '20vh';
+                emoji.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                emoji.style.color = colors[Math.floor(Math.random() * colors.length)];
+                emoji.style.animation = `floatDown ${Math.random() * 2 + 1}s linear forwards`;
+                emoji.style.zIndex = '1000';
+                emoji.style.pointerEvents = 'none';
+                document.body.appendChild(emoji);
+                
+                setTimeout(() => {
+                    emoji.remove();
+                }, 2000);
+            }
+            
+            // Add pulse effect to card
+            const card = document.querySelector('.card');
+            card.style.animation = 'pulse 0.5s 3';
+            
             setTimeout(() => {
-                celebrateBtn.innerHTML = '🎊 Celebrate Eid! 🎊';
+                celebrateBtn.innerHTML = '🎊 Celebrate Again! 🎊';
                 celebrateBtn.style.background = 'linear-gradient(45deg, var(--secondary), var(--primary))';
+                card.style.animation = 'pulse 3s infinite';
             }, 2000);
         });
-        
-        // Random fireworks
-        setInterval(() => {
-            if (Math.random() > 0.7) {
-                createFirework();
-            }
-        }, 500);
-        
-        // Sharing functions
-        function shareOnWhatsApp() {
-            const text = encodeURIComponent("🎉 Beautiful Eid Mubarak Greetings from Maymar-e-Noe Academy! ");
-            const url = encodeURIComponent(window.location.href);
-            window.open(`https://wa.me/?text=${text}${url}`);
-        }
-        
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                alert("Link copied to clipboard! You can now share it anywhere.");
-            });
-        }
     </script>
 </body>
 </html>
